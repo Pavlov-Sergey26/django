@@ -6,6 +6,7 @@ from .models import *
 
 menu = ['About site', 'Add post', 'Feedback', 'Come in']
 menu2 = ['About site2', 'Add post2', 'Feedback2', 'Come in2']
+
 def index(request):
     posts = Women.objects.all()
     return render(request, 'women/index.html', {'posts':posts, 'menu':menu, 'title':'Main page'})
