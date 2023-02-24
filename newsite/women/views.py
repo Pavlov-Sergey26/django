@@ -4,25 +4,33 @@ from django.shortcuts import render, redirect
 
 from .models import *
 
-menu = ['About site', 'Add post', 'Feedback', 'Come in']
-menu2 = ['About site2', 'Add post2', 'Feedback2', 'Come in2']
+menu = [{'title':'About Site', 'url_name':'about'},
+        {'title':'Add post', 'url_name':'add_page'},
+        {'title':'Feedback', 'url_name':'contact'},
+        {'title':'Come in', 'url_name':'login'}]
 
 def index(request):
     posts = Women.objects.all()
-    return render(request, 'women/index.html', {'posts':posts, 'menu':menu, 'title':'Main page'})
+    context = {'posts':posts, 
+                'menu':menu, 
+                'title':'Main page'}
+    return render(request, 'women/index.html', context=context)
 
 def about(request):
-    return render(request, 'women/about.html', {'menu':menu2, 'title':'About site'})
+    return render(request, 'women/about.html', {'menu':menu, 'title':'About site'})
 
-def categories(request, categoriesid):
-    if (request.GET):
-        print(request.GET)
-    return HttpResponse(f'<h1>Статьи по категориям</h1><p>{categoriesid}</p>')
+def add_page(request):
+    return HttpResponse(f'Добавление страницы')
 
-def archive(request, year):
-    if int(year) > 2020:
-        return redirect('home', permanent=True)
-    return HttpResponse(f'<h1>Архив по годам</h1><p>{year}</p>')
+
+def contact(request):
+    return HttpResponse(f'Обратная связь')
+
+def login(request):
+    return HttpResponse(f'Авторизация')
+
+def show_post(request, post_id):
+    return HttpResponse(f"Отображения статьи с id={post_id}")
 
 def pageNotFound(request, exception):
     return HttpResponseNotFound(f'<h1>Cтраница не найдена</h1>')
